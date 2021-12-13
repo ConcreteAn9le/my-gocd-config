@@ -4,9 +4,9 @@ environments:
     environment_variables:
       TENANT: homework
     pipelines:
-      - homework2-base-infra-setup
+      - homework-base-infra-setup
 pipelines:
-  homework2-base-infra-setup:
+  homework-base-infra-setup:
     group: my-base-infra
     label_template: ${COUNT}
     lock_behavior: none
@@ -16,7 +16,7 @@ pipelines:
         plugin_configuration:
           id: git-path
         options:
-          url: https://github.com/ConcreteAn9le/my-gocd-config.git
+          url: git@github.com:ConcreteAn9le/homework2.git
           shallow_clone: false
     stages:
       - prepare:
@@ -27,12 +27,36 @@ pipelines:
             type: success
             allow_only_on_success: false
           jobs:
-            setup_base_infra:
+            prepare_terraform:
               tasks:
                 - exec:
                     arguments:
                       - -c
-                      - source /home/go/.bashrc && make setup_base_infra
+                      - source /home/go/.bashrc && make prepare_base_infra
+                    command: /bin/bash
+                    run_if: passed
+              artifacts:
+                - build:
+                    source: "base-infra/terraform.tfplan"
+      - apply:
+          timeout: 0
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            apply_terraform:
+              environment_variables:
+              tasks:
+                - fetch:
+                    stage: prepare
+                    job: prepare_terraform
+                    is_file: yes
+                    source: "terraform.tfplan"
+                    destination: "base-infra/"
+                - exec:
+                    arguments:
+                      - -c
+                      - source /home/go/.bashrc && make apply_base_infra
                     command: /bin/bash
                     run_if: passed
 
