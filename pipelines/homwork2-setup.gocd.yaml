@@ -31,9 +31,8 @@ pipelines:
               tasks:
                 - exec:
                   arguments:
-                    - -c
-                    - source /home/go/.bashrc && make prepare_base_infra
-                  command: /bin/bash
+                    - prepare_base_infra
+                  command: make
                   run_if: passed
                   artifacts:
                     - build:
@@ -54,9 +53,8 @@ pipelines:
                     destination: "base-infra"
                 - exec:
                     arguments:
-                      - -c
-                      - source /home/go/.bashrc && make apply_base_infra
-                    command: /bin/bash
+                      - apply_base_infra
+                    command: make
                     run_if: passed
 
 
