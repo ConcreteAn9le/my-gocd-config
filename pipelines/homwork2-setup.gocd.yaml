@@ -1,13 +1,13 @@
 format_version: 10
 environments:
-  testing:
+  infra:
     environment_variables:
-      DEPLOYMENT: testing
+      TENANT: homework
     pipelines:
       - homework2-base-infra-setup
 pipelines:
   homework2-base-infra-setup:
-    group: mygroup
+    group: my-base-infra
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
