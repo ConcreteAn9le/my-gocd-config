@@ -30,30 +30,32 @@ pipelines:
             prepare_terraform:
               tasks:
                 - exec:
-                  command: pwd
+                  arguments:
+                    "XXX"
+                  command: echo
                   run_if: passed
-                  artifacts:
-                    - build:
-                        source: "base-infra/terraform.tfplan"
-      - apply:
-          timeout: 0
-          approval:
-            type: manual
-            allow_only_on_success: true
-          jobs:
-            apply_terraform:
-              tasks:
-                - fetch:
-                    stage: prepare
-                    job: prepare_terraform
-                    is_file: yes
-                    source: "terraform.tfplan"
-                    destination: "base-infra"
-                - exec:
-                    arguments:
-                      - -c
-                      - make apply_base_infra
-                    command: /bin/bash
-                    run_if: passed
+#                  artifacts:
+#                    - build:
+#                        source: "base-infra/terraform.tfplan"
+#      - apply:
+#          timeout: 0
+#          approval:
+#            type: manual
+#            allow_only_on_success: true
+#          jobs:
+#            apply_terraform:
+#              tasks:
+#                - fetch:
+#                    stage: prepare
+#                    job: prepare_terraform
+#                    is_file: yes
+#                    source: "terraform.tfplan"
+#                    destination: "base-infra"
+#                - exec:
+#                    arguments:
+#                      - -c
+#                      - make apply_base_infra
+#                    command: /bin/bash
+#                    run_if: passed
 
 
