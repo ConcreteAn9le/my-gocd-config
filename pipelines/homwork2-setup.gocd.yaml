@@ -30,10 +30,7 @@ pipelines:
             prepare_terraform:
               tasks:
                 - exec:
-                  arguments:
-                    - -c
-                    - make prepare_base_infra
-                  command: /bin/bash
+                  command: pwd
                   run_if: passed
                   artifacts:
                     - build:
