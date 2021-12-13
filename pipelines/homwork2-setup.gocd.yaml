@@ -30,10 +30,9 @@ pipelines:
             prepare_terraform:
               tasks:
                   - exec:
-                    command: /bin/sh
+                    command: make
                     arguments:
-                      - -c
-                      - make prepare_base_infra
+                      - prepare_base_infra
                     run_if: passed
                     artifacts:
                       - build:
@@ -53,10 +52,9 @@ pipelines:
                     source: "terraform.tfplan"
                     destination: "base-infra/my-vpc"
                 - exec:
-                    command: /bin/sh
+                    command: make
                     arguments:
-                      - -c
-                      - make apply_base_infra
+                      - apply_base_infra
                     run_if: passed
 
 
