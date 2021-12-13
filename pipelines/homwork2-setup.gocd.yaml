@@ -33,7 +33,7 @@ pipelines:
                     command: bash
                     arguments:
                       - -c
-                      - source /home/go/.bashrc && make prepare_base_infra
+                      - make prepare_base_infra
                     run_if: passed
                     artifacts:
                       - build:
@@ -56,7 +56,7 @@ pipelines:
                     command: bash
                     arguments:
                       - -c
-                      - source /home/go/.bashrc && make apply_base_infra
+                      - make apply_base_infra
                     run_if: passed
 
 
