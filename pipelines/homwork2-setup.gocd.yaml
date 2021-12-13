@@ -1,13 +1,13 @@
 format_version: 10
 environments:
-  infra:
+  testing:
     environment_variables:
-      TENANT: homework
+      DEPLOYMENT: testing
     pipelines:
       - homework-base-infra-setup
 pipelines:
   homework-base-infra-setup:
-    group: my-base-infra
+    group: mygroup
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
@@ -30,14 +30,14 @@ pipelines:
             prepare_terraform:
               tasks:
                 - exec:
-                    arguments:
-                      - -c
-                      - source /home/go/.bashrc && make prepare_base_infra
-                    command: /bin/bash
-                    run_if: passed
-              artifacts:
-                - build:
-                    source: "base-infra/terraform.tfplan"
+                  arguments:
+                    - -c
+                    - source /home/go/.bashrc && make prepare_base_infra
+                  command: /bin/bash
+                  run_if: passed
+                  artifacts:
+                    - build:
+                        source: "base-infra/my-vpc/terraform.tfplan"
       - apply:
           timeout: 0
           approval:
@@ -45,20 +45,18 @@ pipelines:
             allow_only_on_success: true
           jobs:
             apply_terraform:
-              environment_variables:
               tasks:
                 - fetch:
                     stage: prepare
                     job: prepare_terraform
                     is_file: yes
                     source: "terraform.tfplan"
-                    destination: "base-infra/"
+                    destination: "base-infra/my-vpc"
                 - exec:
                     arguments:
                       - -c
                       - source /home/go/.bashrc && make apply_base_infra
                     command: /bin/bash
                     run_if: passed
-
 
 
