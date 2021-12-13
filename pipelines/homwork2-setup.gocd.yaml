@@ -2,6 +2,7 @@ format_version: 10
 environments:
   testing:
     environment_variables:
+      BASH_ENV: /home/go/.bashrc
       DEPLOYMENT: testing
     pipelines:
       - homework-base-infra-setup
@@ -31,31 +32,32 @@ pipelines:
               tasks:
                 - exec:
                   arguments:
-                    "XXX"
-                  command: echo
+                    - -c
+                    - source /home/go/.bashrc && make prepare_base_infra
+                  command: /bin/bash
                   run_if: passed
-#                  artifacts:
-#                    - build:
-#                        source: "base-infra/terraform.tfplan"
-#      - apply:
-#          timeout: 0
-#          approval:
-#            type: manual
-#            allow_only_on_success: true
-#          jobs:
-#            apply_terraform:
-#              tasks:
-#                - fetch:
-#                    stage: prepare
-#                    job: prepare_terraform
-#                    is_file: yes
-#                    source: "terraform.tfplan"
-#                    destination: "base-infra"
-#                - exec:
-#                    arguments:
-#                      - -c
-#                      - make apply_base_infra
-#                    command: /bin/bash
-#                    run_if: passed
+                  artifacts:
+                    - build:
+                        source: "base-infra/terraform.tfplan"
+      - apply:
+          timeout: 0
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            apply_terraform:
+              tasks:
+                - fetch:
+                    stage: prepare
+                    job: prepare_terraform
+                    is_file: yes
+                    source: "terraform.tfplan"
+                    destination: "base-infra"
+                - exec:
+                    arguments:
+                      - -c
+                      - source /home/go/.bashrc && make apply_base_infra
+                    command: /bin/bash
+                    run_if: passed
 
 
