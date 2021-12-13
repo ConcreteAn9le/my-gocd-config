@@ -32,8 +32,8 @@ pipelines:
                 - exec:
                   arguments:
                     - -c
-                    - source .bashrc && make prepare_base_infra
-                  command: bash
+                    - make prepare_base_infra
+                  command: /bin/bash
                   run_if: passed
                   artifacts:
                     - build:
@@ -55,8 +55,8 @@ pipelines:
                 - exec:
                     arguments:
                       - -c
-                      - source .bashrc && make apply_base_infra
-                    command: bash
+                      - make apply_base_infra
+                    command: /bin/bash
                     run_if: passed
 
 
