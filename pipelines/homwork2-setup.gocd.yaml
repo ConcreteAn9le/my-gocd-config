@@ -16,7 +16,7 @@ pipelines:
         plugin_configuration:
           id: git-path
         options:
-          url: git@github.com:ConcreteAn9le/homework2.git
+          url: https://github.com/ConcreteAn9le/my-gocd-config.git
           shallow_clone: false
     stages:
       - prepare:
