@@ -30,7 +30,7 @@ pipelines:
             prepare_terraform:
               tasks:
                   - exec:
-                    command: bash
+                    command: /bin/sh
                     arguments:
                       - -c
                       - make prepare_base_infra
@@ -53,7 +53,7 @@ pipelines:
                     source: "terraform.tfplan"
                     destination: "base-infra/my-vpc"
                 - exec:
-                    command: bash
+                    command: /bin/sh
                     arguments:
                       - -c
                       - make apply_base_infra
