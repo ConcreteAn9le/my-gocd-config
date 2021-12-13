@@ -37,7 +37,7 @@ pipelines:
                   run_if: passed
                   artifacts:
                     - build:
-                        source: "base-infra/my-vpc/terraform.tfplan"
+                        source: "base-infra/terraform.tfplan"
       - apply:
           timeout: 0
           approval:
@@ -51,7 +51,7 @@ pipelines:
                     job: prepare_terraform
                     is_file: yes
                     source: "terraform.tfplan"
-                    destination: "base-infra/my-vpc"
+                    destination: "base-infra"
                 - exec:
                     arguments:
                       - -c
