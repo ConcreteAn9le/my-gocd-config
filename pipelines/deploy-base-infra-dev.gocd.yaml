@@ -1,0 +1,63 @@
+format_version: 10
+environments:
+  testing:
+    environment_variables:
+      BASH_ENV: /home/go/.bashrc
+      DEPLOYMENT: testing
+    pipelines:
+      - dev-deploy
+pipelines:
+  dev-deploy:
+    group: mygroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      my-material:
+        plugin_configuration:
+          id: git-path
+        options:
+          url: git@github.com:ConcreteAn9le/homework2.git
+          shallow_clone: false
+    stages:
+      - plan-ecr:
+          fetch_materials: true
+          keep_artifacts: true
+          clean_workspace: true
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            prepare_terraform:
+              tasks:
+                - exec:
+                  arguments:
+                    - -c
+                    - source /home/go/.bashrc && make prepare_base_infra
+                  command: /bin/bash
+                  run_if: passed
+                  artifacts:
+                    - build:
+                        source: "base-infra/terraform.tfplan"
+      - apply-ecr:
+          timeout: 0
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            apply_terraform:
+              tasks:
+                - fetch:
+                    stage: prepare
+                    job: prepare_terraform
+                    is_file: yes
+                    source: "terraform.tfplan"
+                    destination: "base-infra"
+                - exec:
+                    arguments:
+                      - -c
+                      - source /home/go/.bashrc && make apply_base_infra
+                    command: /bin/bash
+                    run_if: passed
+
+
