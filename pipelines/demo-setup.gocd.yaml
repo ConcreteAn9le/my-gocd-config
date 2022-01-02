@@ -31,7 +31,7 @@ pipelines:
             prepare_terraform:
               tasks:
                 - exec:
-                  command: pwd
+                  command: ls
                   run_if: passed
 
 
