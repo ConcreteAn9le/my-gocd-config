@@ -1,8 +1,4 @@
 format_version: 10
-environments:
-  testing:
-    pipelines:
-      - terraform-install-aws-eks
 pipelines:
   terraform-install-aws-eks:
     group: sample
