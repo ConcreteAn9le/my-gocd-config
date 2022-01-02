@@ -1,14 +1,6 @@
 format_version: 10
-environments:
-  testing:
-    environment_variables:
-      BASH_ENV: /home/go/.bashrc
-      DEPLOYMENT: testing
-    pipelines:
-      - terraform-install-aws-eks
 pipelines:
   terraform-install-aws-eks:
-    group: mygroup
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
