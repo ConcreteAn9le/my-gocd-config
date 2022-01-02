@@ -31,8 +31,10 @@ pipelines:
             prepare_terraform:
               tasks:
               - exec:
-                command: ls
-                run_if: passed
+                  arguments:
+                  - abc
+                  command: echo
+                  run_if: passed
 
 
 
