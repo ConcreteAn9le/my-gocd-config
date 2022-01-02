@@ -11,6 +11,7 @@ pipelines:
           id: git-path
         options:
           url: git@github.com:ConcreteAn9le/my-terraform-code.git
+          path: base-infra
           shallow_clone: false
     stages:
       - setup:
