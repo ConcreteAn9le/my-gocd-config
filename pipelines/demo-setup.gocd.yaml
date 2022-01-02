@@ -5,9 +5,9 @@ environments:
       BASH_ENV: /home/go/.bashrc
       DEPLOYMENT: testing
     pipelines:
-      - homework-base-infra-setup
+      - terraform-install-aws-eks
 pipelines:
-  homework-base-infra-setup:
+  terraform-install-aws-eks:
     group: mygroup
     label_template: ${COUNT}
     lock_behavior: none
@@ -17,7 +17,7 @@ pipelines:
         plugin_configuration:
           id: git-path
         options:
-          url: git@github.com:ConcreteAn9le/homework2.git
+          url: git@github.com:ConcreteAn9le/my-terraform-code.git
           shallow_clone: false
     stages:
       - prepare:
@@ -32,32 +32,9 @@ pipelines:
               tasks:
                 - exec:
                   arguments:
-                    - -c
-                    - source /home/go/.bashrc && make prepare_base_infra
-                  command: /bin/bash
+                    - '&&'
+                  command: pwd
                   run_if: passed
-                  artifacts:
-                    - build:
-                        source: "base-infra/terraform.tfplan"
-      - apply:
-          timeout: 0
-          approval:
-            type: manual
-            allow_only_on_success: true
-          jobs:
-            apply_terraform:
-              tasks:
-                - fetch:
-                    stage: prepare
-                    job: prepare_terraform
-                    is_file: yes
-                    source: "terraform.tfplan"
-                    destination: "base-infra"
-                - exec:
-                    arguments:
-                      - -c
-                      - source /home/go/.bashrc && make apply_base_infra
-                    command: /bin/bash
-                    run_if: passed
+
 
 
