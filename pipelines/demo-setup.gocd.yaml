@@ -31,8 +31,6 @@ pipelines:
             prepare_terraform:
               tasks:
                 - exec:
-                  arguments:
-                    - '&&'
                   command: pwd
                   run_if: passed
 
