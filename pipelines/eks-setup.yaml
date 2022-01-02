@@ -13,7 +13,7 @@ pipelines:
           url: git@github.com:ConcreteAn9le/my-terraform-code.git
           shallow_clone: false
     stages:
-      - prepare:
+      - setup:
           fetch_materials: true
           keep_artifacts: true
           clean_workspace: true
@@ -21,7 +21,7 @@ pipelines:
             type: success
             allow_only_on_success: false
           jobs:
-            prepare_terraform:
+            setup_eks:
               tasks:
               - exec:
                   arguments:
