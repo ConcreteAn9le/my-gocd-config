@@ -1,6 +1,7 @@
 format_version: 10
 pipelines:
   terraform-install-aws-eks:
+    group: sample
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
