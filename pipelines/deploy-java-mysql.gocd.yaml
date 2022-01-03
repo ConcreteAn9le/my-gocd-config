@@ -10,7 +10,7 @@ pipelines:
         plugin_configuration:
           id: git-path
         options:
-          url: git@github.com:ConcreteAn9le/my-gocd-config.git
+          url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
           shallow_clone: false
     stages:
       - default_stage:
