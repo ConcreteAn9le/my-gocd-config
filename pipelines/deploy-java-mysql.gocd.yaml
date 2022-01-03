@@ -7,8 +7,8 @@ pipelines:
     display_order: -1
     materials:
       java-mysql-material:
-#        plugin_configuration:
-#          id: git-path
+        plugin_configuration:
+          id: git-path
         options:
           url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
           shallow_clone: false
