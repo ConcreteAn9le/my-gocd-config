@@ -7,12 +7,14 @@ pipelines:
     display_order: -1
     materials:
       my-material:
-        plugin_configuration:
-          id: git-path
-        options:
-          url: git@github.com:ConcreteAn9le/my-terraform-code.git
-          path: base-infra/eks
-          shallow_clone: false
+        git: git@github.com:ConcreteAn9le/my-terraform-code.git
+        branch: main
+#        plugin_configuration:
+#          id: git-path
+#        options:
+#          url: git@github.com:ConcreteAn9le/my-terraform-code.git
+#          path: base-infra/eks
+#          shallow_clone: false
     stages:
       - prepare:
           fetch_materials: true
