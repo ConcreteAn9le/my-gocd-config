@@ -7,8 +7,8 @@ pipelines:
     display_order: -1
     materials:
       my-material:
-        plugin_configuration:
-          id: git-path
+#        plugin_configuration:
+#          id: git-path
         options:
           url: git@github.com:ConcreteAn9le/my-terraform-code.git
           path: base-infra/eks
