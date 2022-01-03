@@ -13,6 +13,7 @@ pipelines:
           id: git-path
         options:
           url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
+          path: deploy
           shallow_clone: false
     stages:
       - default_stage:
