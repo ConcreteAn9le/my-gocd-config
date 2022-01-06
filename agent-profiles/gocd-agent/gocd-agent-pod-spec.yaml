@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-name-prefix-{{ POD_POSTFIX }}
+  labels:
+    app: web
+spec:
+  containers:
+    - name: gocd-agent-container-{{ CONTAINER_POSTFIX }}
+      image: {{ GOCD_AGENT_IMAGE }}:{{ LATEST_VERSION }}
+      securityContext:
+        privileged: true
