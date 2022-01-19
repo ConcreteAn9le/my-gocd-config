@@ -1,0 +1,33 @@
+format_version: 10
+pipelines:
+  gocd-agent-config:
+    group: practice
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      gocd-config-material:
+#        git: git@github.com:ConcreteAn9le/my-gocd-config.git
+#        branch: main
+        plugin_configuration:
+          id: git-path
+        options:
+          url: git@github.com:ConcreteAn9le/my-gocd-config.git
+          path: agent-profiles
+          shallow_clone: false
+    jobs:
+      gocd_server_api_config:
+        timeout: 0
+        tasks:
+          - exec:
+              arguments:
+                - '&&'
+              command: pwd
+              run_if: passed
+          - exec:
+              arguments:
+                - -c
+                - ./agent-profiles/add-agent-profiles.sh ${GOCD_DOMAIN} ${GOCD_ACCESS_TOKEN} ${ELASTIC_AGENT_ROLE_ARN}
+              command: /bin/bash
+              run_if: passed
+
