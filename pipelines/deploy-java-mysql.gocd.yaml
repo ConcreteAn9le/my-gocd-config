@@ -7,15 +7,16 @@ pipelines:
     display_order: -1
     materials:
       java-mysql-material:
-#        git: git@github.com:ConcreteAn9le/java-mysql-k8s.git
-#        branch: main
-        plugin_configuration:
-          id: git-path
-        options:
-          url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
-          path: deploy
-          shallow_clone: false
+        git: https://github.com/ConcreteAn9le/java-mysql-k8s.git
+        branch: main
         destination: middle-folder
+#        plugin_configuration:
+#          id: git-path
+#        options:
+#          url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
+#          path: deploy
+#          shallow_clone: false
+#        destination: middle-folder
     stages:
       - default_stage:
           fetch_materials: true
