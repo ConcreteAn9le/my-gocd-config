@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  gocd-agent-config:
+  my-gocd-agent-config:
     group: practice
     label_template: ${COUNT}
     lock_behavior: none
