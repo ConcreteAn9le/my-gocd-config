@@ -25,6 +25,7 @@ pipelines:
             allow_only_on_success: false
           jobs:
             gocd_server_api_config:
+              elasctic_profile_id: demo-app
               timeout: 0
               tasks:
                 - exec:

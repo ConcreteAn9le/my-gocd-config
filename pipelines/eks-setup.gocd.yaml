@@ -27,7 +27,7 @@ pipelines:
             allow_only_on_success: false
           jobs:
             prepare_terraform:
-              elastic_profile_id: my-infra-gocd-agent
+              elastic_profile_id: demo-app
               tasks:
               - script: |
                   cd ./my-terraform-resource/base-infra/eks
