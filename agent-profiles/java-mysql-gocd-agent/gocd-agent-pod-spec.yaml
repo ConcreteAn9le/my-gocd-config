@@ -1,0 +1,71 @@
+#What is an Elastic Agent Profile?
+#An Elastic Agent Profile usually contains the configuration for your agent.
+#Depending on the plugin used, this may contain the machine image (ami, docker image), size of the CPU/memory/disk, network settings among other things.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-java-mysql-gocd-agent-{{ POD_POSTFIX }}
+  labels:
+    app: my-java-mysql-gocd-agent
+spec:
+  containers:
+    - name: my-java-mysql-gocd-agent-{{ CONTAINER_POSTFIX }}
+      image: gocd/gocd-agent-docker-dind:v21.3.0
+      securityContext:
+        privileged: true
+
+#apiVersion: v1
+#kind: Pod
+#metadata:
+#  name: tie-infra-gocd-agent-{{ POD_POSTFIX }}
+#  labels:
+#    app: tie-infra-gocd-agent
+#  annotations:
+#    iam.amazonaws.com/role: arn:aws:iam::679620309940:role/tie-dev-deployment
+#spec:
+#  securityContext:
+#    runAsUser: 1000
+#    fsGroup: 1000
+#    runAsNonRoot: true
+#  serviceAccountName: gocd-agent
+#  automountServiceAccountToken: false
+#  affinity:
+#    podAntiAffinity:
+#      preferredDuringSchedulingIgnoredDuringExecution:
+#        - weight: 100
+#          podAffinityTerm:
+#            topologyKey: kubernetes.io/hostname
+#            labelSelector:
+#              matchLabels:
+#                app: tie-infra-gocd-agent
+#  containers:
+#    - name: tie-infra-gocd-agent-{{ CONTAINER_POSTFIX }}
+#      image: 679620309940.dkr.ecr.ap-southeast-1.amazonaws.com/ndi-tie/tie-infra-gocd-agent:latest
+#      imagePullPolicy: Always
+#      resources:
+#        requests:
+#          cpu: 50m
+#          memory: 256M
+#      env:
+#        - name: AGENT_BOOTSTRAPPER_ARGS
+#          value: -sslVerificationMode NONE
+#        - name: AWS_METADATA_SERVICE_TIMEOUT
+#          value: 2
+#        - name: AWS_METADATA_SERVICE_NUM_ATTEMPTS
+#          value: 20
+#        - name: GIT_SSH_COMMAND
+#          value: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=30"
+#      volumeMounts:
+#        - name: ssh-secrets
+#          readOnly: true
+#          mountPath: /home/go/.ssh
+#      securityContext:
+#        privileged: true
+#        allowPrivilegeEscalation: true
+#        capabilities:
+#          drop: ["ALL"]
+#        readOnlyRootFilesystem: false
+#  volumes:
+#    - name: ssh-secrets
+#      secret:
+#        secretName: gocd-agent-ssh

@@ -1,7 +1,7 @@
 format_version: 10
 pipelines:
   deploy-java-mysql:
-    group: pipeline-agent-eks-java-mysql
+    group: practice
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
@@ -15,6 +15,7 @@ pipelines:
           url: git@github.com:ConcreteAn9le/java-mysql-k8s.git
           path: deploy
           shallow_clone: false
+        destination: middle-folder
     stages:
       - default_stage:
           fetch_materials: true
@@ -25,11 +26,11 @@ pipelines:
             allow_only_on_success: false
           jobs:
             default_job:
+              elasctic_profile_id: my-java-mysql-gocd-agent
               timeout: 0
               tasks:
-                - exec:
-                    arguments:
-                      - abc
-                    command: echo
-                    run_if: passed
+                - script: |
+                    cd ./middle-folder/deploy
+                    kubectl delete -f .
+                    kubectl apply -f .
 

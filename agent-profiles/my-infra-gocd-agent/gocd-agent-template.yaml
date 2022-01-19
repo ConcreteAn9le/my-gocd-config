@@ -1,0 +1,14 @@
+{
+  "id" : "",
+  "cluster_profile_id" : "k8-cluster-profile",
+  "properties" : [ {
+    "key" : "PodSpecType",
+    "value" : "yaml"
+  }, {
+    "key" : "PodConfiguration",
+    "value" : ""
+  }, {
+    "key" : "SpecifiedUsingPodConfiguration",
+    "value" : "true"
+  }]
+}

@@ -1,7 +1,7 @@
 format_version: 10
 pipelines:
   terraform-install-aws-eks:
-    group: pipeline-agent-eks-java-mysql
+    group: practice
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
@@ -15,6 +15,7 @@ pipelines:
           url: git@github.com:ConcreteAn9le/my-terraform-code.git
           path: base-infra/eks
           shallow_clone: false
+        destination: my-terraform-resource
     stages:
       - prepare:
           fetch_materials: true
@@ -25,12 +26,12 @@ pipelines:
             allow_only_on_success: false
           jobs:
             prepare_terraform:
+              elastic_profile_id: my-infra-gocd-agent
               tasks:
-              - exec:
-                  arguments:
-                  - abc
-                  command: echo
-                  run_if: passed
+              - script: |
+                  cd ./my-terraform-resource/base-infra/eks
+                  terraform init
+                  terraform plan
               artifacts:
                 - build:
                     source: "base-infra/terraform.tfplan"
@@ -41,6 +42,7 @@ pipelines:
             allow_only_on_success: true
           jobs:
             apply_terraform:
+              elastic_profile_id: my-infra-gocd-agent
               tasks:
                 - fetch:
                     stage: prepare
@@ -48,11 +50,12 @@ pipelines:
                     is_file: yes
                     source: "terraform.tfplan"
                     destination: "base-infra/"
-                - exec:
-                    arguments:
-                      - def
-                    command: echo
-                    run_if: passed
+                - script: |
+                    cd ./my-terraform-resource/base-infra/eks
+                    terraform init
+                    terraform apply
+
+
 
 
 
