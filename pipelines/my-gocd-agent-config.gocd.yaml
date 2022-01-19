@@ -15,19 +15,27 @@ pipelines:
 #          url: git@github.com:ConcreteAn9le/my-gocd-config.git
 #          path: agent-profiles
 #          shallow_clone: false
-    jobs:
-      gocd_server_api_config:
-        timeout: 0
-        tasks:
-          - exec:
-              arguments:
-                - '&&'
-              command: pwd
-              run_if: passed
-          - exec:
-              arguments:
-                - -c
-                - ./agent-profiles/add-agent-profiles.sh ${GOCD_DOMAIN} ${GOCD_ACCESS_TOKEN} ${ELASTIC_AGENT_ROLE_ARN}
-              command: /bin/bash
-              run_if: passed
+    stages:
+      - config_gocd_server:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: true
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            gocd_server_api_config:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '&&'
+                    command: pwd
+                    run_if: passed
+                - exec:
+                    arguments:
+                      - -c
+                      - ./agent-profiles/add-agent-profiles.sh
+                    command: /bin/bash
+                    run_if: passed
 
