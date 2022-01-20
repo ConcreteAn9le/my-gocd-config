@@ -30,8 +30,24 @@ pipelines:
               elasctic_profile_id: demo-app
               timeout: 0
               tasks:
-                - script: |
-                    cd ./middle-folder/deploy
-                    kubectl delete -f .
-                    kubectl apply -f .
+                - exec:
+                    arguments:
+                      - ./middle-folder/deploy
+                    command: cd
+                    run_if: passed
+                - exec:
+                    arguments:
+                      - delete -f .
+                    command: kubectl
+                    run_if: passed
+                - exec:
+                    arguments:
+                      - apply -f .
+                    command: kubectl
+                    run_if: passed
+#                - script: |
+#                    cd ./middle-folder/deploy
+#                    kubectl delete -f .
+#                    kubectl apply -f .
+
 
