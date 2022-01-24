@@ -26,6 +26,8 @@ pipelines:
           jobs:
             gocd_server_api_config:
               elasctic_profile_id: demo-app
+              environment_variables:
+                GOCD_DOMAIN: gocd-server-server:8153
               timeout: 0
               tasks:
                 - exec:
@@ -36,7 +38,7 @@ pipelines:
                 - exec:
                     arguments:
                       - -c
-                      - ./agent-profiles/add-agent-profiles.sh
+                      - ./agent-profiles/add-agent-profiles.sh ${GOCD_DOMAIN} ${GOCD_ACCESS_TOKEN} ${ELASTIC_AGENT_ROLE_ARN}
                     command: /bin/bash
                     run_if: passed
 
